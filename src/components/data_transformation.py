@@ -36,12 +36,12 @@ class DataTransformation:
                 "lunch",
                 "test_preparation_course",
             ]
-
+            
+            #
             num_pipeline= Pipeline(
-                steps=[
-                ("imputer",SimpleImputer(strategy="median")),
-                ("scaler",StandardScaler())
-
+                steps=[   #steps: The steps parameter is a list of tuples, where each tuple specifies a step in the pipeline. Each tuple has a name (a string identifier for the step) and a corresponding transformer or estimator object.
+                ("imputer",SimpleImputer(strategy="median")), #A transformer from Scikit-learn used for imputing missing values. Imputation fills in missing values with a specified value or strategy.
+                ("scaler",StandardScaler()) #A transformer from Scikit-learn used for standardizing features. It scales the data to have a mean of 0 and a standard deviation of 1.  Standardization is an essential preprocessing step for many machine learning algorithms. It ensures that the features contribute equally to the result.
                 ]
             )
 
@@ -49,7 +49,7 @@ class DataTransformation:
 
                 steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")),
-                ("one_hot_encoder",OneHotEncoder()),
+                ("one_hot_encoder",OneHotEncoder()),   # It transforms categorical variables into binary vectors (one-hot encoding). Each unique category value becomes a binary column (0 or 1), indicating the presence or absence of that category in the original data point.
                 ("scaler",StandardScaler(with_mean=False))
                 ]
 
@@ -88,8 +88,8 @@ class DataTransformation:
             target_column_name="math_score"
             numerical_columns = ["writing_score", "reading_score"]
 
-            input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
-            target_feature_train_df=train_df[target_column_name]
+            input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1) #Removes the target column from the training dataset, leaving only the input features.
+            target_feature_train_df=train_df[target_column_name] #Extracts the target column from the training dataset, which contains the values that the model will try to predict during training.
 
             input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
             target_feature_test_df=test_df[target_column_name]
@@ -102,7 +102,7 @@ class DataTransformation:
             input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
 
             train_arr = np.c_[
-                input_feature_train_arr, np.array(target_feature_train_df)
+                input_feature_train_arr, np.array(target_feature_train_df) ##see again this
             ]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
