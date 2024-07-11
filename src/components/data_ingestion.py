@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
 
 #DataIngestion: A class to handle the ingestion of data. It reads data from a CSV file, splits it into training and testing sets, and saves them to specified paths.
 
@@ -52,8 +54,12 @@ class DataIngestion:
 # if __name__=="__main__":: This line ensures that the following block of code only runs if this script is executed as the main program. It will not run if the script is imported as a module in another script.
 if __name__=="__main__":
     obj=DataIngestion()
-    train_data,test_data=obj.initiate_Data_Ingestion()  #Calls the initiate_Data_Ingestion method on the obj instance, performing the data ingestion process and storing the returned training and testing data paths in the variables train_data and test_data.
+    train_data,test_data=obj.initiate_Data_Ingestion()#Calls the initiate_Data_Ingestion method on the obj instance, performing the data ingestion process and storing the returned training and testing data paths in the variables train_data and test_data.
+
     data_transformation=DataTransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+
+    modeltrainer=ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
 
 
